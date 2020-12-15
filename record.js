@@ -28,7 +28,7 @@ influx.getDatabaseNames()
         if (!names.includes('sensor_db')) {
             return influx.createDatabase('sensor_db');
         }
-    }).then(async () => {
+    }).then(() => setInterval(async () => {
         const measurements = [];
         for (const { sensor, cmd } of config) {
             const value = parseFloat((await execAsync(cmd)).stdout.toString());
@@ -39,6 +39,5 @@ influx.getDatabaseNames()
             });
         }
         return influx.writePoints(measurements);
-    })
-
+    }, 60000))
     .catch(err => console.error(err))

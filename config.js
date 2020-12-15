@@ -1,18 +1,18 @@
 module.exports = [
     {
         sensor: "light",
-        cmd: "./readLight.py"
+        cmd: "./read/light.py"
     },
     {
         sensor: "humidity",
-        cmd: "./readHumidity.py"
+        cmd: "./read/humidity.py"
     },
     {
         sensor: "soil",
-        cmd: "./readSoil.py"
+        cmd: "./read/soil.py"
     },
     {
         sensor: "temperature",
-        cmd: "./readTemperature.py"
+        cmd: "./read/temperature.py"
     }
 ]
