@@ -24,6 +24,10 @@ module.exports = [
         cmd: "./read/adc.py 14"
     },
     {
+        sensor: "co2",
+        cmd: "./read/co2.py"
+    },
+    {
         sensor: "temperature",
         cmd: "./read/temperature.py"
     }
