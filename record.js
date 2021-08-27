@@ -23,12 +23,21 @@ const influx = new Influx.InfluxDB({
     ]
 });
 
+const sleep = wait => new Promise(resolve => setTimeout(resolve, wait));
+
+const forever = async (func, wait) => {
+    while (true) {
+        await func().catch(err => console.error(err));
+        await sleep(wait);
+    }
+}
+
 influx.getDatabaseNames()
     .then(names => {
         if (!names.includes('sensor_db')) {
             return influx.createDatabase('sensor_db');
         }
-    }).then(() => setInterval(async () => {
+    }).then(() => forever(async () => {
         const measurements = [];
         for (const { sensor, cmd } of config.sensors) {
             const value = parseFloat((await execAsync(cmd)).stdout.toString());
@@ -48,5 +57,5 @@ influx.getDatabaseNames()
             });
         }
         return influx.writePoints(measurements);
-    }, 60000))
-    .catch(err => console.error(err))
+    }, 30000))
+    
