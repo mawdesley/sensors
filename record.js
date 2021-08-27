@@ -30,12 +30,21 @@ influx.getDatabaseNames()
         }
     }).then(() => setInterval(async () => {
         const measurements = [];
-        for (const { sensor, cmd } of config) {
+        for (const { sensor, cmd } of config.sensors) {
             const value = parseFloat((await execAsync(cmd)).stdout.toString());
             measurements.push({
                 measurement: "sensors",
                 fields: { value },
                 tags: { sensor }
+            });
+        }
+
+        for (const { composite, cmd } of config.composites) {
+            const value = cmd(measurements);
+            measurements.push({
+                measurement: "sensors",
+                fields: { value },
+                tags: { sensor: composite }
             });
         }
         return influx.writePoints(measurements);
