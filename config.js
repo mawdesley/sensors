@@ -32,8 +32,7 @@ module.exports = {
             cmd: measurements => {
                 const rh = findSensorValue(measurements, "humidity");
                 const at = findSensorValue(measurements, "temperature");
-                const aVPD = svp(at) * ((1 - rh) / 100);
-                return aVPD;
+                return svp(at) * ((1 - rh) / 100);
             }
         },
         {
@@ -42,8 +41,7 @@ module.exports = {
                 const rh = findSensorValue(measurements, "humidity");
                 const at = findSensorValue(measurements, "temperature")
                 const elt = at - 2;
-                const elVPD = svp(elt) - (svp(at) * (rh / 100));
-                return elVPD;
+                return svp(elt) - (svp(at) * (rh / 100));
             },
         },
         {
@@ -52,8 +50,8 @@ module.exports = {
                 const rh = findSensorValue(measurements, "humidity");
                 const at = findSensorValue(measurements, "temperature")
 
-                td = 243.5 * (Math.log(rh / 100) + ((17.67 * at) / (243.5 + at))) / (17.67 - Math.log(rh / 100) - ((17.67 * at) / (243.5 + at)));
-                return td;
+                return 243.5 * (Math.log(rh / 100) + ((17.67 * at) / (243.5 + at))) / (17.67 - Math.log(rh / 100) - ((17.67 * at) / (243.5 + at)));
+            }
             }
         }
     ]
