@@ -52,7 +52,7 @@ module.exports = {
                 const rh = findSensorValue(measurements, "humidity");
                 const at = findSensorValue(measurements, "temperature")
 
-                td = (243.5 *  Math.log(rh / 100) + ((17.67 * at) / (243.5 + at))) / (17.67 - Math.log(rh / 100) - ((17.67 * at) / (243.5 + at)));
+                td = 243.5 * (Math.log(rh / 100) + ((17.67 * at) / (243.5 + at))) / (17.67 - Math.log(rh / 100) - ((17.67 * at) / (243.5 + at)));
                 return td;
             }
         }
