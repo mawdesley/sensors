@@ -1,7 +1,7 @@
 const findSensorValue = (measurements, sensor) =>
     measurements.find(m => m.tags.sensor === sensor).fields.value;
 
-
+const svp = (t) => 0.61078 * Math.exp(((17.27 * t) / (t + 237.3)));
 
 module.exports = {
     sensors: [
@@ -32,8 +32,7 @@ module.exports = {
             cmd: measurements => {
                 const rh = findSensorValue(measurements, "humidity");
                 const at = findSensorValue(measurements, "temperature");
-                const svp = 610.78 * 2.71828 ^ (at / (at + 238.3) * 17.2694);
-                const aVPD = svp * (1 - rh / 100);
+                const aVPD = svp(at) * ((1 - rh) / 100);
                 return aVPD;
             }
         },
@@ -41,14 +40,11 @@ module.exports = {
             composite: "elVPD",
             cmd: measurements => {
                 const rh = findSensorValue(measurements, "humidity");
-                const at = findSensorValue(measurements, "temperature");
+                const at = findSensorValue(measurements, "temperature")
                 const elt = at - 2;
-                const asvp = 610.78 * 2.71828 ^ (at / (at + 238.3) * 17.2694);
-                const elsvp = 610.78 * 2.71828 ^ (elt / (elt + 238.3) * 17.2694);
-
-                const elVPD = elsvp - (asvp * rh / 100);
+                const elVPD = svp(elt) - (svp(at) * (rh / 100));
                 return elVPD;
-            }
+            },
         }
     ]
 }
