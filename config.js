@@ -52,6 +52,14 @@ module.exports = {
 
                 return 243.5 * (Math.log(rh / 100) + ((17.67 * at) / (243.5 + at))) / (17.67 - Math.log(rh / 100) - ((17.67 * at) / (243.5 + at)));
             }
+        },
+        {
+            composite: "abs-humidity",
+            cmd: measurements => {
+                const rh = findSensorValue(measurements, "humidity");
+                const at = findSensorValue(measurements, "temperature")
+
+                return (6.112 * Math.pow(Math.E, (17.67 * at) / (at + 243.5)) * rh * 2.1674) / (273.15 + at)
             }
         }
     ]
