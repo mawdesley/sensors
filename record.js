@@ -39,8 +39,13 @@ influx.getDatabaseNames()
         }
     }).then(() => forever(async () => {
         const measurements = [];
-        for (const { sensor, cmd } of config.sensors) {
+        for (const { sensor, cmd, validate } of config.sensors) {
             const value = parseFloat((await execAsync(cmd)).stdout.toString());
+
+            if (validate) {
+                validate(value);
+            }
+
             measurements.push({
                 measurement: "sensors",
                 fields: { value },

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "influx": "^5.6.3"
+    "influx": "^5.6.3",
+    "joi": "^17.4.2"
   }
 }

@@ -1,29 +1,44 @@
+const Joi = require('joi');
+
 const findSensorValue = (measurements, sensor) =>
     measurements.find(m => m.tags.sensor === sensor).fields.value;
 
 const svp = (t) => 0.61078 * Math.exp(((17.27 * t) / (t + 237.3)));
 
+const validate = schema => result => {
+    const { error } = schema.validate(result)
+
+    if (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     sensors: [
         {
             sensor: "light",
-            cmd: "./read/adc.py 8"
+            cmd: "./read/adc.py 8",
+            validate: validate(Joi.number().min(0).max(100)),
         },
         {
             sensor: "humidity",
-            cmd: "./read/humidity.py"
+            cmd: "./read/humidity.py",
+            validate: validate(Joi.number().min(0).max(100)),
         },
         {
             sensor: "soil",
-            cmd: "./read/adc.py 14"
+            cmd: "./read/adc.py 14",
+            validate: validate(Joi.number().min(0).max(100)),
         },
         {
             sensor: "co2",
-            cmd: "./read/co2.py"
+            cmd: "./read/co2.py",
+            validate: validate(Joi.number().min(0).max(5000)),
         },
         {
             sensor: "temperature",
-            cmd: "./read/temperature.py"
+            cmd: "./read/temperature.py",
+            validate: validate(Joi.number().min(-10).max(50)),
         }
     ],
     composites: [
