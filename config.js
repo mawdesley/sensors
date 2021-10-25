@@ -1,5 +1,7 @@
 const Joi = require('joi');
-const { execAsync } = require("spawn");
+const { exec } = require("child_process");
+const { promisify } = require("util");
+const execAsync = promisify(exec);
 
 
 const findSensorValue = (measurements, sensor) =>
