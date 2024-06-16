@@ -47,6 +47,7 @@ influx.getDatabaseNames()
             } else {
                 value = parseFloat((await execAsync(cmd)).stdout.toString());
             }
+            console.log(`Sensor: ${sensor}, Value: ${value}`);
             
             if (validate) {
                 try {
