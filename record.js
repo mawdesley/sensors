@@ -49,7 +49,12 @@ influx.getDatabaseNames()
             }
             
             if (validate) {
-                validate(value);
+                try {
+                    validate(value);
+                } catch (err) {
+                    console.error(err);
+                    continue;
+                }
             }
 
             measurements.push({
