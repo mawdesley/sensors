@@ -43,4 +43,6 @@ describe("actions", () => {
             expect(actions.checkWatering.action(data)).toBeUndefined();
         });
     });
+
+    describe("water")
 });

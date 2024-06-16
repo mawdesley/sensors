@@ -47,6 +47,7 @@ influx.getDatabaseNames()
             select MEAN(value) as value, sensor
             from sensors
             where time > now() - 5m
+            and sensor 
             group by sensor;
           `, {
              placeholders: {
