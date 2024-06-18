@@ -11,7 +11,7 @@ module.exports = influx => {
             {
                 measurement: "sensors",
                 fields: { value: 1 },
-                tags: { sensor: "pump " }
+                tags: { sensor: "pump" }
             }
         ])
 
@@ -20,7 +20,7 @@ module.exports = influx => {
             {
                 measurement: "sensors",
                 fields: { value: 0 },
-                tags: { sensor: "pump "}
+                tags: { sensor: "pump"}
             }
         ])
 
