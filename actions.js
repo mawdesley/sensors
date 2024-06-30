@@ -1,6 +1,9 @@
-const FIVE_MINUTES = 5 * 60 * 1000;
-const THIRTY_MINUTES = 30 * 60 * 1000;
-const TWENTY_HOURS = 20 * 60 * 60 * 1000;
+const ONE_SECOND = 1000;
+const ONE_MINUTE = 60 * ONE_SECOND;
+const FIVE_MINUTES = 5 * ONE_MINUTE;
+const THIRTY_MINUTES = 30 * ONE_MINUTE;
+const ONE_HOUR = 60 * ONE_MINUTE;
+const TWENTY_HOURS = 20 * ONE_HOUR;
 
 module.exports = ({
     timeSinceLastWatering,
