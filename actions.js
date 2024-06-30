@@ -7,7 +7,7 @@ const TWENTY_HOURS = 20 * ONE_HOUR;
 
 module.exports = ({
     timeSinceLastWatering,
-    timeSinceSinrise,
+    timeSinceSunrise,
     batteryVoltage,
     soilMoisture,
     water,
@@ -16,20 +16,20 @@ module.exports = ({
         interval: FIVE_MINUTES,
         data: {
             timeSinceLastWatering,
-            timeSinceSinrise,
+            timeSinceSunrise,
             batteryVoltage,
             soilMoisture,
         },
-        action: ({ timeSinceLastWatering, timeSinceSinrise, batteryVoltage, soilMoisture }) => {
+        action: ({ timeSinceLastWatering, timeSinceSunrise, batteryVoltage, soilMoisture }) => {
             if (timeSinceLastWatering < TWENTY_HOURS) {
                 return;
             }
 
-            if (timeSinceSinrise < FIVE_MINUTES) {
+            if (timeSinceSunrise < FIVE_MINUTES) {
                 return;
             }
 
-            if (timeSinceSinrise > THIRTY_MINUTES) {
+            if (timeSinceSunrise > THIRTY_MINUTES) {
                 // return;
             }
 
