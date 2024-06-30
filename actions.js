@@ -30,7 +30,7 @@ module.exports = ({
             }
 
             if (timeSinceSinrise > THIRTY_MINUTES) {
-                return;
+                // return;
             }
 
             if (batteryVoltage < 12) {
