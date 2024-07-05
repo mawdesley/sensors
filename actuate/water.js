@@ -2,8 +2,8 @@ const { exec } = require("child_process");
 const { promisify } = require("util");
 const execAsync = promisify(exec);
 
-const startPump = () => execAsync("ioplus 0 relwr 7 on");
-const stopPump = () => execAsync("ioplus 0 relwr 7 off");
+const startPump = () => execAsync("ioplus 0 relwr 6 on");
+const stopPump = () => execAsync("ioplus 0 relwr 6 off");
 
 module.exports = influx => {
     const recordStartPump = () =>
