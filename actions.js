@@ -48,5 +48,39 @@ module.exports = ({
         action: async () => {
             const cancel = await water(THIRTY_MINUTES);
         }
+    },
+
+    checkFan: {
+        interval: ONE_MINUTE,
+        data: {
+            batteryVoltage,
+            temperature,
+            humidity,
+            leafVpd,
+            isFanOn,
+
+        },
+        action: ({ batteryVoltage, temperature, humidity, leafVpd, isFanOn}) => {
+            if (isFanOn) {
+                return;
+            }
+
+            if (batteryVoltage < 12) {
+                return;
+            }
+
+            if (temperature < 20) {
+                return;
+            }
+
+            if (light < 85) {
+                return;
+            }
+
+            if (temperature > 30) {
+                return ["fan"];
+            }
+        },
+    },
     }
 }) 

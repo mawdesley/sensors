@@ -7,7 +7,7 @@ const actionProcessor = require("./actionProcessor");
 const createWater = require("./actuate/water");
 
 const influx = new Influx.InfluxDB({
-    host: "localhost",
+    host: "192.168.1.118",
     database: 'sensor_db',
     schema: [
         {

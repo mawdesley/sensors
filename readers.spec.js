@@ -28,7 +28,7 @@ describe("readers", () => {
     });
 
     it("timeSinceLastWatering", async () => {
-        console.log((await readers.timeSinceLastWatering()));
+        console.log((await readers.timeSinceLastWatering()) / HOUR);
     }, 20000);
 
     it("timeSinceSunrise", async () => {
