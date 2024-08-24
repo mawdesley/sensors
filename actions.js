@@ -1,6 +1,7 @@
 const ONE_SECOND = 1000;
 const ONE_MINUTE = 60 * ONE_SECOND;
 const FIVE_MINUTES = 5 * ONE_MINUTE;
+const FIFTEEN_MINUTES = 15 * ONE_MINUTE;
 const THIRTY_MINUTES = 30 * ONE_MINUTE;
 const ONE_HOUR = 60 * ONE_MINUTE;
 const TWENTY_HOURS = 20 * ONE_HOUR;
@@ -13,7 +14,7 @@ module.exports = ({
     water,
 }) =>({
     checkWatering: {
-        interval: FIVE_MINUTES,
+        interval: FIFTEEN_MINUTES,
         data: {
             timeSinceLastWatering,
             timeSinceSunrise,
