@@ -23,7 +23,7 @@ module.exports = influx => ({
         const result = await influx.query(`
             select value, sensor
             from sensors
-            where value < 30
+            where value < 80
             and sensor = 'light'
             and time > now() - 2d
             order by time desc
