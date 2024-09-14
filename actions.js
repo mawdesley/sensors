@@ -38,7 +38,7 @@ module.exports = ({
                 return;
             }
 
-            if (soilMoisture > 60) {
+            if (soilMoisture > 50) {
                 return;
             }
 
