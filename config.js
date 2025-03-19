@@ -54,6 +54,14 @@ module.exports = {
             validate: validate(Joi.number().min(0).max(5000)),
         },
         {
+            sensor: "battery voltage",
+            cmd: async () => {
+                const adc = parseFloat((await execAsync("ioplus 0 adcrd 4")).stdout.toString());
+                return adc * 5; // adc / (r2 / (r1 + r2))
+            },
+            validate: validate(Joi.number().min(0).max(17)),
+        },
+        {
             sensor: "temperature",
             cmd: "./read/temperature.py",
             validate: validate(Joi.number().min(-10).max(50)),
