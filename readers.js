@@ -30,6 +30,8 @@ module.exports = influx => ({
             placeholders: {
             }
         });
+
+        return result.length ? result[0].value : 0;
     },
     timeSinceLastWatering: async () => {
         const result = await influx.query(`
