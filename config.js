@@ -57,7 +57,8 @@ module.exports = {
             sensor: "battery voltage",
             cmd: async () => {
                 const adc = parseFloat((await execAsync("ioplus 0 adcrd 4")).stdout.toString());
-                return adc * 5; // adc / (r2 / (r1 + r2))
+                const voltage = adc * 5; // adc / (r2 / (r1 + r2))
+                return voltage + 0.5; // sensor is .5v low compared with multimeter reading
             },
             validate: validate(Joi.number().min(0).max(17)),
         },
