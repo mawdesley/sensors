@@ -71,7 +71,7 @@ module.exports = ({
                 return;
             }
             if (fanState > 0) {
-                return;
+                return ["checkFanStop"]
             }
 
             if (batteryVoltage > 12 && temperature > 28) {
