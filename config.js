@@ -71,6 +71,22 @@ module.exports = {
             sensor: "leaf-temperature",
             cmd: "./read/ir-object-temperature.py",
             validate: validate(Joi.number().min(-30).max(100)),
+        },
+        {
+            sensor: "pump",
+            cmd: async () => {
+                const state = parseInt((await execAsync("ioplus 0 relrd 6")).stdout.toString());
+                return state;
+            },
+            validate: validate(Joi.number().valid(0, 1)),
+        },
+        {
+            sensor: "fan",
+            cmd: async () => {
+                const state = parseInt((await execAsync("ioplus 0 relrd 8")).stdout.toString());
+                return state;
+            },
+            validate: validate(Joi.number().valid(0, 1)),
         }
     ],
     composites: [
