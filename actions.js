@@ -78,9 +78,11 @@ module.exports = ({
                 return ["fan"];
             }
 
+            /*
             if (batteryVoltage > 12.5 && humidity > 80) {
                 return ["fan"];
             }
+            */
         },
     },
     fan: {
