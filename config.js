@@ -81,6 +81,14 @@ module.exports = {
             validate: validate(Joi.number().valid(0, 1)),
         },
         {
+            sensor: "valve:drip",
+            cmd: async () => {
+                const state = parseInt((await execAsync("ioplus 0 relrd 7")).stdout.toString());
+                return state;
+            },
+            validate: validate(Joi.number().valid(0, 1)),
+        },
+        {
             sensor: "fan",
             cmd: async () => {
                 const state = parseInt((await execAsync("ioplus 0 relrd 8")).stdout.toString());

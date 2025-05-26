@@ -20,6 +20,7 @@ module.exports = ({
     humidity,
     water,
     fan,
+    dripValve,
 }) =>({
     checkWatering: {
         interval: FIFTEEN_MINUTES,
@@ -55,7 +56,9 @@ module.exports = ({
     },
     water: {
         action: async () => {
+            await dripValve.start();
             const cancel = await water.runForDuration(FOURTY_MINUTES);
+            await dripValve.stop();
         }
     },
     checkStartFan: {
