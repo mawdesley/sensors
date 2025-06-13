@@ -56,10 +56,12 @@ module.exports = ({
     },
     water: {
         action: async () => {
-            await dripValve.start();
             await water.start();
+            await sleep(ONE_SECOND);
+            await dripValve.start();
             await sleep(FOURTY_MINUTES);
             await dripValve.stop();
+            await sleep(ONE_SECOND);
             await water.stop();
         }
     },
