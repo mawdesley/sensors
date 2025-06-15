@@ -6,7 +6,6 @@ const { promisify } = require("util");
 const execAsync = promisify(exec);
 const config = require("./config");
 
-
 const influx = new Influx.InfluxDB({
     host: 'localhost',
     database: 'sensor_db',
@@ -42,12 +41,17 @@ influx.getDatabaseNames()
         for (const { sensor, cmd, validate } of config.sensors) {
             let value;
 
-            if (typeof cmd === 'function') {
-                value = await cmd();
-            } else {
-                value = parseFloat((await execAsync(cmd)).stdout.toString());
+            try {
+                if (typeof cmd === 'function') {
+                    value = await cmd();
+                } else {
+                    value = parseFloat((await execAsync(cmd)).stdout.toString());
+                }
+                console.log(`Sensor: ${sensor}, Value: ${value}`);
+            } catch (err) {
+                console.error(`Error reading sensor ${sensor}:`, err);
+                continue;
             }
-            console.log(`Sensor: ${sensor}, Value: ${value}`);
             
             if (validate) {
                 try {
@@ -66,12 +70,17 @@ influx.getDatabaseNames()
         }
 
         for (const { composite, cmd } of config.composites) {
-            const value = cmd(measurements);
-            measurements.push({
-                measurement: "sensors",
-                fields: { value },
-                tags: { sensor: composite }
-            });
+            try {
+                const value = cmd(measurements);
+                measurements.push({
+                    measurement: "sensors",
+                    fields: { value },
+                    tags: { sensor: composite }
+                });
+            } catch (err) {
+                console.error(`Error calculating composite sensor ${composite}:`, err);
+                continue;
+            }
         }
         return influx.writePoints(measurements);
     }, 30000))
