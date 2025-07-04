@@ -33,6 +33,21 @@ module.exports = influx => ({
 
         return result.length ? result[0].value : 0;
     },
+    circFanState: async () => {
+        const result = await influx.query(`
+            select value, sensor
+            from sensors
+            where sensor = 'fan:circulation'
+            and time > now() - 4h
+            order by time desc
+            limit 1;
+            `, {
+            placeholders: {
+            }
+        });
+
+        return result.length ? result[0].value : 0;
+    },
     timeSinceLastWatering: async () => {
         const result = await influx.query(`
             select value, sensor

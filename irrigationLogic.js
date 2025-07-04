@@ -24,8 +24,9 @@ const influx = new Influx.InfluxDB({
 
 const water = createActuator({ influx, sensor: "pump", relay: 6 });
 const fan = createActuator({ influx, sensor: "fan", relay: 8 });
+const circFan = createActuator({ influx, sensor: "fan:circulation", relay: 5 });
 const dripValve = createActuator({ influx, sensor: "valve:drip", relay: 7 });
 const readers = createReaders(influx);
-const actions = createActions({ water, fan, dripValve, ...readers });
+const actions = createActions({ water, fan, circFan, dripValve, ...readers });
 
 actionProcessor({ actions });

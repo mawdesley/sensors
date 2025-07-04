@@ -95,6 +95,14 @@ module.exports = {
                 return state;
             },
             validate: validate(Joi.number().valid(0, 1)),
+        },
+        {
+            sensor: "fan:circulation",
+            cmd: async () => {
+                const state = parseInt((await execAsync("ioplus 0 relrd 5")).stdout.toString());
+                return state;
+            },
+            validate: validate(Joi.number().valid(0, 1)),
         }
     ],
     composites: [

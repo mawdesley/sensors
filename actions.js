@@ -16,10 +16,12 @@ module.exports = ({
     soilMoisture,
     pumpState,
     fanState,
+    circFanState,
     temperature,
     humidity,
     water,
     fan,
+    circFan,
     dripValve,
 }) =>({
     checkWatering: {
@@ -131,6 +133,74 @@ module.exports = ({
     stopFan: {
         action: async () => {
             await fan.stop();
+        },
+    },
+
+
+    checkStartCircFan: {
+        interval: FIVE_MINUTES,
+        data: {
+            circFanState,
+            pumpState,
+            humidity,
+            temperature,
+            batteryVoltage,
+        },
+        action: ({ pumpState, circFanState, humidity, temperature, batteryVoltage }) => {
+            if (pumpState > 0) {
+                return;
+            }
+            if (circFanState > 0) {
+                return ["checkCircFanStop"];
+            }
+
+            if (batteryVoltage < 13.5) {
+                return;
+            }
+
+            if (humidity > 80 || temperature > 25) {
+                return ["circFan"];
+            }
+        },
+    },
+    circFan: {
+        action: async () => {
+            await circFan.start();
+            return ["checkCircFanStop"];
+        },
+    },
+    checkCircFanStop: {
+        data: {
+            circFanState,
+            pumpState,
+            temperature,
+            humidity,
+            batteryVoltage,
+        },
+        action: async ({ circFanState, humidity, temperature, pumpState, batteryVoltage }) => {
+            if (circFanState === 0) {
+                return;
+            }
+
+            if (pumpState === 1) {
+                return ["stopCircFan"];
+            }
+
+            if (batteryVoltage < 12) {
+                return ["stopCircFan"];
+            }
+
+            if (humidity < 70 && temperature < 22) {
+                return ["stopCircFan"];
+            }
+
+            await sleep(ONE_MINUTE);
+            return ["checkCircFanStop"];
+        },
+    },
+    stopCircFan: {
+        action: async () => {
+            await circFan.stop();
         },
     },
 }) 
