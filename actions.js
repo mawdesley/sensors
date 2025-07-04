@@ -73,10 +73,9 @@ module.exports = ({
             fanState,
             pumpState,
             temperature,
-            humidity,
             batteryVoltage,
         },
-        action: ({ pumpState, fanState, temperature, humidity, batteryVoltage }) => {
+        action: ({ pumpState, fanState, temperature, batteryVoltage }) => {
             if (pumpState > 0) {
                 return;
             }
@@ -84,15 +83,9 @@ module.exports = ({
                 return ["checkFanStop"]
             }
 
-            if (batteryVoltage > 12 && temperature > 28) {
+            if (batteryVoltage > 12 && temperature > 35) {
                 return ["fan"];
             }
-
-            /*
-            if (batteryVoltage > 12.5 && humidity > 80) {
-                return ["fan"];
-            }
-            */
         },
     },
     fan: {
