@@ -179,7 +179,7 @@ module.exports = ({
                 return ["stopCircFan"];
             }
 
-            if (batteryVoltage < 12) {
+            if (batteryVoltage < 12.5) {
                 return ["stopCircFan"];
             }
 
