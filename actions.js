@@ -80,7 +80,7 @@ module.exports = ({
                 return;
             }
             if (fanState > 0) {
-                return ["checkFanStop"]
+                return;
             }
 
             if (batteryVoltage > 12 && temperature > 35) {
@@ -91,10 +91,10 @@ module.exports = ({
     fan: {
         action: async () => {
             await fan.start();
-            return ["checkFanStop"];
         },
     },
     checkFanStop: {
+        interval: ONE_MINUTE,
         data: {
             fanState,
             pumpState,
@@ -118,9 +118,6 @@ module.exports = ({
             if (temperature < 25 && humidity < 70) {
                 return ["stopFan"];
             }
-
-            await sleep(ONE_MINUTE);
-            return ["checkFanStop"];
         },
     },
     stopFan: {
@@ -144,7 +141,7 @@ module.exports = ({
                 return;
             }
             if (circFanState > 0) {
-                return ["checkCircFanStop"];
+                return;
             }
 
             if (batteryVoltage < 13.5) {
@@ -159,10 +156,10 @@ module.exports = ({
     circFan: {
         action: async () => {
             await circFan.start();
-            return ["checkCircFanStop"];
         },
     },
     checkCircFanStop: {
+        interval: ONE_MINUTE,
         data: {
             circFanState,
             pumpState,
@@ -186,9 +183,6 @@ module.exports = ({
             if (humidity < 70 && temperature < 22) {
                 return ["stopCircFan"];
             }
-
-            await sleep(ONE_MINUTE);
-            return ["checkCircFanStop"];
         },
     },
     stopCircFan: {
