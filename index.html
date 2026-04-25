@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Polytunnel control panel</title>
+        <style>
+            :root{
+                --bg:#0b1116;
+                --card:#0f1720;
+                --muted:#98a8bf;
+                --accent:#16a34a;
+                --glass: rgba(255,255,255,0.03);
+            }
+            html,body{height:100%;}
+            body{
+                margin:0;
+                font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+                background: radial-gradient(1200px 600px at 10% 10%, rgba(22,163,74,0.06), transparent), var(--bg);
+                color:#e6eef8;
+                -webkit-font-smoothing:antialiased;
+                -moz-osx-font-smoothing:grayscale;
+            }
+
+            .panel{
+                max-width:720px;
+                margin:48px auto;
+                background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent), var(--card);
+                border-radius:14px;
+                padding:20px;
+                box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+                border:1px solid rgba(255,255,255,0.03);
+            }
+
+            h1{margin:0 0 12px 0;font-size:20px;letter-spacing:0.2px}
+
+            .controls{display:grid;gap:12px}
+
+            .control{
+                display:flex;align-items:center;justify-content:space-between;
+                padding:12px 14px;border-radius:10px;background:var(--glass);
+                border:1px solid rgba(255,255,255,0.02);
+            }
+
+            label{font-weight:600;color:#e6eef8;font-size:16px}
+            .hint{color:var(--muted);font-size:13px;margin-top:8px}
+
+            /* Large rounded toggle */
+            input[type="checkbox"]{
+                -webkit-appearance:none;appearance:none;
+                width:56px;height:30px;border-radius:999px;background:#122233;position:relative;cursor:pointer;flex:0 0 56px;transition:background .18s;border:1px solid rgba(255,255,255,0.03);
+            }
+            input[type="checkbox"]::after{content:"";position:absolute;top:3px;left:4px;width:24px;height:24px;background:#fff;border-radius:50%;transition:transform .18s}
+            input[type="checkbox"]:checked{background:var(--accent)}
+            input[type="checkbox"]:checked::after{transform:translateX(26px)}
+
+            /* Smaller screens */
+            @media (max-width:420px){
+                .panel{margin:20px;padding:14px}
+                label{font-size:15px}
+                input[type="checkbox"]{width:48px;height:26px}
+                input[type="checkbox"]::after{width:20px;height:20px}
+            }
+        </style>
+    </head>
+    <body>
+        <div class="panel">
+            <h1>Polytunnel control panel</h1>
+
+            <form class="controls">
+                <div class="control">
+                    <div>
+                        <label for="6">Pump</label>
+                        <div class="hint">Water goes sploooossh</div>
+                    </div>
+                    <input type="checkbox" id="6" name="6">
+                </div>
+
+                <div class="control">
+                    <div>
+                        <label for="7">Valve</label>
+                        <div class="hint">Water goes squuuirrrrttt</div>
+                    </div>
+                    <input type="checkbox" id="7" name="7">
+                </div>
+
+                <div class="control">
+                    <div>
+                        <label for="5">Circulation Fan</label>
+                        <div class="hint">Air goes whoooosh</div>
+                    </div>
+                    <input type="checkbox" id="5" name="5">
+                </div>
+
+                <div class="control">
+                    <div>
+                        <label for="8">Extractor Fan</label>
+                        <div class="hint">Air goes out</div>
+                    </div>
+                    <input type="checkbox" id="8" name="8">
+                </div>
+            </form>
+        </div>
+
+        <script>
+            document.querySelectorAll('input[type="checkbox"]').forEach(item => {
+                item.addEventListener('change', event => {
+                    const actuatorId = event.target.getAttribute('name');
+                    const state = event.target.checked ? 1 : 0;
+                    fetch(`/${actuatorId}/${state}`);
+                })
+            });
+
+            function fetchStatus() {
+                fetch('/status')
+                    .then(response => response.json())
+                    .then(data => {
+                        for (const [id, state] of Object.entries(data)) {
+                            const checkbox = document.querySelector(`input[name="${id}"]`);
+                            if (checkbox) {
+                                checkbox.checked = state === 1;
+                            }
+                        }
+                    });
+            }
+
+            fetchStatus();
+            setInterval(() => {
+                fetchStatus();
+            }, 60000);
+        </script>
+    </body>
+</html>

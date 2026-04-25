@@ -5,6 +5,7 @@ const createReaders = require("./readers");
 const createActions = require("./actions");
 const actionProcessor = require("./actionProcessor");
 const createActuator = require("./actuate/relayActuator");
+require("./controlPanel");
 
 const influx = new Influx.InfluxDB({
     host: "localhost",
